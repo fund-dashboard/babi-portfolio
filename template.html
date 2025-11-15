@@ -11,7 +11,7 @@ body {
     margin: 30px auto;
     background: #f0f2f5;
     color: #222;
-    line-height: 1.25;  /* menší řádkování */
+    line-height: 1.25;
 }
 
 h1 {
@@ -24,7 +24,7 @@ h1 {
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;   /* menší mezery */
+    gap: 16px;
 }
 
 .card {
@@ -56,15 +56,18 @@ h1 {
     margin-top: 4px;
 }
 
+/* === OPRAVENÝ GRAF — NEROZTAHUJE SE === */
 #chart-container {
+    position: relative;
     width: 100%;
-    height: 220px;   /* pevná výška – opravuje extrémní natažení */
+    max-width: 100%;
+    height: 220px;        /* pevná výška */
+    overflow: hidden;     /* žádné roztahování */
 }
-#chart {
-    width: 100% !important;
-    height: 100% !important;
+canvas#chart {
+    display: block;
+    max-height: 100% !important;
 }
-
 </style>
 </head>
 <body>
@@ -145,7 +148,8 @@ new Chart(ctx, {
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false,   // důležité pro pevnou výšku
+        maintainAspectRatio: false,   // musí být false
+        animation: false,             // stabilní první render
         scales: {
             y: { beginAtZero: false },
             x: { display: false }
