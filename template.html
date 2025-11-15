@@ -142,24 +142,43 @@ new Chart(ctx, {
             borderWidth: 2,
             borderColor: '#0a6',
             backgroundColor: 'rgba(0, 160, 90, 0.12)',
-            pointRadius: 0,
+            pointRadius: 4,          // 🔵 viditelný bod
+            pointHoverRadius: 7,     // 🔵 zvětší se při hoveru
+            pointBackgroundColor: '#0a6',
+            pointHoverBackgroundColor: '#084',
+            pointBorderWidth: 0,
             tension: 0.18
         }]
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false,   // musí být false
-        animation: false,             // stabilní první render
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: { display: false },
+
+            tooltip: {
+                enabled: true,     // 🟢 tooltip funguje i s jedním bodem
+                backgroundColor: "rgba(0,0,0,0.8)",
+                titleColor: "#fff",
+                bodyColor: "#fff",
+                displayColors: false,
+                callbacks: {
+                    label: function(ctx) {
+                        return ctx.parsed.y + " EUR";
+                    }
+                }
+            }
+        },
+
         scales: {
             y: { beginAtZero: false },
             x: { display: false }
-        },
-        plugins: {
-            legend: { display: false }
         }
     }
 });
 </script>
+
 
 </body>
 </html>
