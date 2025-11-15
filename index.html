@@ -11,7 +11,7 @@ body {
     margin: 30px auto;
     background: #f0f2f5;
     color: #222;
-    line-height: 1.25;  /* menší řádkování */
+    line-height: 1.25;
 }
 
 h1 {
@@ -24,7 +24,7 @@ h1 {
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;   /* menší mezery */
+    gap: 16px;
 }
 
 .card {
@@ -56,15 +56,18 @@ h1 {
     margin-top: 4px;
 }
 
+/* === OPRAVENÝ GRAF — NEROZTAHUJE SE === */
 #chart-container {
+    position: relative;
     width: 100%;
-    height: 220px;   /* pevná výška – opravuje extrémní natažení */
+    max-width: 100%;
+    height: 220px;        /* pevná výška */
+    overflow: hidden;     /* žádné roztahování */
 }
-#chart {
-    width: 100% !important;
-    height: 100% !important;
+canvas#chart {
+    display: block;
+    max-height: 100% !important;
 }
-
 </style>
 </head>
 <body>
@@ -91,7 +94,7 @@ h1 {
         <p><span class="label">Kurz EUR/CZK:</span> 
            <span class="value">24.18</span></p>
 
-        <p class="small-info">Aktualizováno: 2025-11-15 09:51</p>
+        <p class="small-info">Aktualizováno: 2025-11-15 10:12</p>
     </div>
 
     <div class="card">
@@ -121,8 +124,6 @@ h1 {
     </div>
 </div>
 
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
 <script>
 const labels = ["2025-11-14"];
 const data = [143.68];
@@ -139,19 +140,38 @@ new Chart(ctx, {
             borderWidth: 2,
             borderColor: '#0a6',
             backgroundColor: 'rgba(0, 160, 90, 0.12)',
-            pointRadius: 0,
+            pointRadius: 6,               // 🔵 bod je viditelný
+            pointHoverRadius: 9,          // 🔵 zvětší se při hoveru
+            pointBackgroundColor: '#0a6',
+            pointHoverBackgroundColor: '#084',
+            pointBorderWidth: 0,
             tension: 0.18
         }]
     },
     options: {
         responsive: true,
-        maintainAspectRatio: false,   // důležité pro pevnou výšku
+        maintainAspectRatio: false,
+
+        plugins: {
+            legend: { display: false },
+
+            tooltip: {
+                enabled: true,
+                backgroundColor: "rgba(0,0,0,0.8)",
+                titleColor: "#fff",
+                bodyColor: "#fff",
+                displayColors: false,
+                callbacks: {
+                    label: function(ctx) {
+                        return ctx.parsed.y + " EUR";
+                    }
+                }
+            }
+        },
+
         scales: {
             y: { beginAtZero: false },
             x: { display: false }
-        },
-        plugins: {
-            legend: { display: false }
         }
     }
 });
