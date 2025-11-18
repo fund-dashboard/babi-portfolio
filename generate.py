@@ -4,9 +4,9 @@ from datetime import datetime
 import json
 import pandas as pd
 
-SHARES = 3.0
+SHARES = 9.0
 PURCHASE_DATE = "2025-11-14"
-PURCHASE_PRICE = 141.80  # EUR
+PURCHASE_PRICE = 140.73  # EUR
 TEMPLATE = "template.html"
 OUTPUT = "index.html"
 
