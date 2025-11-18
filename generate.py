@@ -6,7 +6,7 @@ import pandas as pd
 
 SHARES = 0.3
 PURCHASE_DATE = "2025-11-14"
-PURCHASE_PRICE = 141.90  # EUR
+PURCHASE_PRICE = 141.80  # EUR
 TEMPLATE = "template.html"
 OUTPUT = "index.html"
 
