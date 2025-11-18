@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
 <meta charset="UTF-8">
-<title>Babi portfolio</title>
+<title>Jindrovo portfolio</title>
 
 <style>
 body { 
@@ -11,7 +11,7 @@ body {
     margin: 30px auto;
     background: #f0f2f5;
     color: #222;
-    line-height: 1.25;  /* menší řádkování */
+    line-height: 1.25;
 }
 
 h1 {
@@ -24,7 +24,7 @@ h1 {
 .grid-2 {
     display: grid;
     grid-template-columns: 1fr 1fr;
-    gap: 16px;   /* menší mezery */
+    gap: 16px;
 }
 
 .card {
@@ -58,18 +58,33 @@ h1 {
 
 #chart-container {
     width: 100%;
-    height: 220px;   /* pevná výška – opravuje extrémní natažení */
+    height: 220px;
 }
 #chart {
     width: 100% !important;
     height: 100% !important;
 }
 
+table {
+    width: 100%;
+    border-collapse: collapse;
+    font-size: 14px;
+}
+th, td {
+    padding: 6px 4px;
+}
+th {
+    text-align: left;
+    color: #084c9e;
+}
+tr:nth-child(even) {
+    background: #f7f9fc;
+}
 </style>
 </head>
 <body>
 
-<h1>Babi akciové portfolio</h1>
+<h1>Jindrovo akciové portfolio</h1>
 
 <div class="grid-2">
     <div class="card">
@@ -82,38 +97,54 @@ h1 {
            <span class="value">9.0 ks</span></p>
 
         <p><span class="label">Cena VWCE:</span> 
-           <span class="value">140.18 EUR</span></p>
+           <span class="value">140.76 EUR</span></p>
 
         <p><span class="label">Hodnota portfolia:</span> 
-           <span class="value">1261.62 EUR</span>
-           (<span class="value">30482.81 Kč</span>)</p>
+           <span class="value">1266.84 EUR</span>
+           (<span class="value">30608.94 Kč</span>)</p>
 
         <p><span class="label">Kurz EUR/CZK:</span> 
            <span class="value">24.16</span></p>
 
-        <p class="small-info">Aktualizováno: 2025-11-18 16:05</p>
+        <p class="small-info">Aktualizováno: 2025-11-18 16:27</p>
     </div>
 
     <div class="card">
-        <div class="section-title">Výkonnost od nákupu</div>
+        <div class="section-title">Výkonnost</div>
 
-        <p><span class="label">Nákupní cena:</span> 
-           140.73 EUR (2025-11-14)</p>
+        <p><span class="label">Průměrná nákupní cena:</span> 
+           140.77 EUR</p>
 
         <p><span class="label">Zhodnocení:</span> 
            <span class="value" style="color: #c00;">
-               -0.39 %
+               -0.00 %
            </span></p>
 
-        <p><span class="label">Celkový zisk:</span> 
+        <p><span class="label">Celkem vyděláno:</span> 
            <span class="value" style="color: #c00;">
-               -4.95 EUR
+               -0.06 EUR
            </span></p>
     </div>
 </div>
 
 <br>
 
+<!-- ⭐ Historie nákupů -->
+<div class="card">
+  <div class="section-title">Historie nákupů</div>
+  <table>
+    <tr>
+      <th>Datum</th><th>Množství</th><th>Cena</th>
+    </tr>
+    <tr><td>2025-11-14</td><td>3.0 ks</td><td>141.9 EUR</td></tr>
+<tr><td>2025-11-18</td><td>6.0 ks</td><td>140.2 EUR</td></tr>
+
+  </table>
+</div>
+
+<br>
+
+<!-- ⭐ Graf -->
 <div class="card">
     <div class="section-title">Graf vývoje VWCE</div>
     <div id="chart-container">
@@ -124,43 +155,76 @@ h1 {
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
 <script>
+// ----- Data -----
 const labels = ["2025-11-14", "2025-11-17", "2025-11-18"];
-const data = [140.73, 143.02, 140.18];
+const data = [143.68, 143.02, 140.76];
 
+const tradeDates = ["2025-11-14", "2025-11-18"];
+const tradePrices = [141.9, 140.2];
+
+// ----- Graf -----
 const ctx = document.getElementById('chart').getContext('2d');
 
 new Chart(ctx, {
     type: 'line',
     data: {
         labels: labels,
-        datasets: [{
-            label: 'VWCE (EUR)',
-            data: data,
-            borderWidth: 2,
-            borderColor: '#0a6',
-            backgroundColor: 'rgba(0, 160, 90, 0.12)',
-            pointRadius: 2,          // 🔵 viditelný bod i při 1 hodnotě
-            pointHoverRadius: 6,     // 🔵 větší bod při hoveru
-            pointBackgroundColor: '#0a6',
-            pointHoverBackgroundColor: '#084',
-            tension: 0.18
-        }]
+        datasets: [
+            {
+                label: 'VWCE (EUR)',
+                data: data,
+                borderWidth: 2,
+                borderColor: '#0a6',
+                backgroundColor: 'rgba(0, 160, 90, 0.12)',
+                pointRadius: 0,
+                tension: 0.18
+            },
+            {
+                label: 'Průměrná nákupní cena',
+                data: new Array(labels.length).fill(140.77),
+                borderWidth: 1.5,
+                borderColor: '#d33',
+                borderDash: [6,4],
+                pointRadius: 0
+            },
+            {
+                label: 'Nákupy',
+                parsing: false,
+                data: tradeDates.map((date, i) => ({
+                    x: date,
+                    y: tradePrices[i]
+                })),
+                pointRadius: 5,
+                pointHoverRadius: 7,
+                pointBackgroundColor: '#d00',
+                borderWidth: 0,
+                showLine: false
+            }
+        ]
     },
     options: {
         responsive: true,
         maintainAspectRatio: false,
+
+        scales: {
+            x: { display: false },
+            y: { beginAtZero: false }
+        },
+
         plugins: {
             legend: { display: false },
+
             tooltip: {
                 enabled: true,
                 callbacks: {
-                    label: (ctx) => ctx.parsed.y + " EUR"
+                    label: function(ctx) {
+                        if (ctx.dataset.label === "Nákupy") {
+                            return "Nákup: " + ctx.parsed.y + " EUR";
+                        }
+                        return ctx.parsed.y + " EUR";
+                    }
                 }
             }
-        },
-        scales: {
-            y: { beginAtZero: false },
-            x: { display: false }
         }
     }
 });
