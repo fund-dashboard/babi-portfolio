@@ -97,32 +97,32 @@ tr:nth-child(even) {
            <span class="value">9.0 ks</span></p>
 
         <p><span class="label">Cena VWCE:</span> 
-           <span class="value">140.76 EUR</span></p>
+           <span class="value">140.98 EUR</span></p>
 
         <p><span class="label">Hodnota portfolia:</span> 
-           <span class="value">1266.84 EUR</span>
-           (<span class="value">30608.94 Kč</span>)</p>
+           <span class="value">1268.82 EUR</span>
+           (<span class="value">30656.78 Kč</span>)</p>
 
         <p><span class="label">Kurz EUR/CZK:</span> 
            <span class="value">24.16</span></p>
 
-        <p class="small-info">Aktualizováno: 2025-11-18 16:27</p>
+        <p class="small-info">Aktualizováno: 2025-11-18 16:39</p>
     </div>
 
     <div class="card">
         <div class="section-title">Výkonnost</div>
 
         <p><span class="label">Průměrná nákupní cena:</span> 
-           140.77 EUR</p>
+           140.73 EUR</p>
 
         <p><span class="label">Zhodnocení:</span> 
-           <span class="value" style="color: #c00;">
-               -0.00 %
+           <span class="value" style="color: #0a6;">
+               0.18 %
            </span></p>
 
         <p><span class="label">Celkem vyděláno:</span> 
-           <span class="value" style="color: #c00;">
-               -0.06 EUR
+           <span class="value" style="color: #0a6;">
+               2.22 EUR
            </span></p>
     </div>
 </div>
@@ -136,7 +136,7 @@ tr:nth-child(even) {
     <tr>
       <th>Datum</th><th>Množství</th><th>Cena</th>
     </tr>
-    <tr><td>2025-11-14</td><td>3.0 ks</td><td>141.9 EUR</td></tr>
+    <tr><td>2025-11-14</td><td>3.0 ks</td><td>141.8 EUR</td></tr>
 <tr><td>2025-11-18</td><td>6.0 ks</td><td>140.2 EUR</td></tr>
 
   </table>
@@ -157,10 +157,10 @@ tr:nth-child(even) {
 <script>
 // ----- Data -----
 const labels = ["2025-11-14", "2025-11-17", "2025-11-18"];
-const data = [143.68, 143.02, 140.76];
+const data = [143.68, 143.02, 140.98];
 
 const tradeDates = ["2025-11-14", "2025-11-18"];
-const tradePrices = [141.9, 140.2];
+const tradePrices = [141.8, 140.2];
 
 // ----- Graf -----
 const ctx = document.getElementById('chart').getContext('2d');
@@ -181,11 +181,12 @@ new Chart(ctx, {
             },
             {
                 label: 'Průměrná nákupní cena',
-                data: new Array(labels.length).fill(140.77),
+                data: new Array(labels.length).fill(140.73),
                 borderWidth: 1.5,
                 borderColor: '#d33',
                 borderDash: [6,4],
-                pointRadius: 0
+                pointRadius: 0,
+                hoverRadius: 0
             },
             {
                 label: 'Nákupy',
@@ -218,9 +219,18 @@ new Chart(ctx, {
                 enabled: true,
                 callbacks: {
                     label: function(ctx) {
+
+                        // 🔴 nákupní tečka
                         if (ctx.dataset.label === "Nákupy") {
                             return "Nákup: " + ctx.parsed.y + " EUR";
                         }
+
+                        // 🟠 průměrná nákupní cena
+                        if (ctx.dataset.label === "Průměrná nákupní cena") {
+                            return "Průměrná nákupní cena: 140.73 EUR";
+                        }
+
+                        // 🟢 běžná cena VWCE
                         return ctx.parsed.y + " EUR";
                     }
                 }
