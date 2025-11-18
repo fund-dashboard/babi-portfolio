@@ -182,8 +182,9 @@ new Chart(ctx, {
                 data: new Array(labels.length).fill({{AVG_PRICE_JS}}),
                 borderWidth: 1.5,
                 borderColor: '#d33',
-                borderDash: [6,4],
-                pointRadius: 0
+                borderDash: [6,4],     // tečkovaná čára
+                pointRadius: 0,
+                hoverRadius: 0
             },
             {
                 label: 'Nákupy',
@@ -213,18 +214,25 @@ new Chart(ctx, {
             legend: { display: false },
 
             tooltip: {
-                enabled: true,
-                callbacks: {
-                    label: function(ctx) {
-                        if (ctx.dataset.label === "Nákupy") {
-                            return "Nákup: " + ctx.parsed.y + " EUR";
-                        }
-                        return ctx.parsed.y + " EUR";
-                    }
-                }
+    enabled: true,
+    callbacks: {
+        label: function(ctx) {
+
+            // 🔴 nákupní tečka
+            if (ctx.dataset.label === "Nákupy") {
+                return "Nákup: " + ctx.parsed.y + " EUR";
             }
+
+            // 🟠 průměrná nákupní cena (vodorovná čára)
+            if (ctx.dataset.label === "Průměrná nákupní cena") {
+                return "Průměrná nákupní cena: {{AVG_PRICE_JS}} EUR";
+            }
+
+            // 🟢 normální hodnota VWCE
+            return ctx.parsed.y + " EUR";
         }
     }
+}
 });
 </script>
 
