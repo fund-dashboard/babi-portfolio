@@ -2,10 +2,11 @@ import yfinance as yf
 import requests
 from datetime import datetime
 import json
+import pandas as pd
 
-SHARES = 3.0
+SHARES = 0.3
 PURCHASE_DATE = "2025-11-14"
-PURCHASE_PRICE = 141.80  # EUR
+PURCHASE_PRICE = 141.90  # EUR
 TEMPLATE = "template.html"
 OUTPUT = "index.html"
 
@@ -21,12 +22,30 @@ def get_fx_rate():
 def get_vwce_history():
     t = yf.Ticker("VWCE.DE")
     df = t.history(period="max")
-    df = df[df.index >= PURCHASE_DATE]
-    history = {
-        "dates": df.index.strftime("%Y-%m-%d").tolist(),
-        "close": df["Close"].round(2).tolist()
-    }
-    return history
+
+    # odstranění časové zóny — klíčová oprava
+    df.index = df.index.tz_localize(None)
+
+    # převedeme PURCHASE_DATE na Timestamp
+    purchase_ts = pd.to_datetime(PURCHASE_DATE)
+
+    # filtrace: až následující den po nákupu
+    df = df[df.index > purchase_ts]
+
+    # vytvoříme seznamy
+    dates = df.index.strftime("%Y-%m-%d").tolist()
+    close = df["Close"].round(2).tolist()
+
+    # vložíme nákupní bod na začátek
+    dates.insert(0, PURCHASE_DATE)
+    close.insert(0, round(PURCHASE_PRICE, 2))
+
+    # Pokud je jen jeden den dat, duplikujeme
+    if len(dates) == 1:
+        dates.append(PURCHASE_DATE)
+        close.append(round(PURCHASE_PRICE, 2))
+
+    return {"dates": dates, "close": close}
 
 def main():
     price = get_vwce_price()
