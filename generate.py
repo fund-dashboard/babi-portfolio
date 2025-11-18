@@ -9,7 +9,7 @@ OUTPUT = "index.html"
 
 # 💰 ZDE DEFINUJEŠ NÁKUPY
 TRADES = [
-    {"date": "2025-11-14", "price": 141.90, "shares": 3.0},
+    {"date": "2025-11-14", "price": 141.80, "shares": 3.0},
     {"date": "2025-11-18", "price": 140.20, "shares": 6.0},
     # Přidej další nákupy sem...
     # {"date": "2025-11-18", "price": 143.20, "shares": 0.7},
