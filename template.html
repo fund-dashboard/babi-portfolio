@@ -205,10 +205,43 @@ new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
 
-        scales: {
-            x: { display: false },
-            y: { beginAtZero: false }
+    scales: {
+    x: {
+        display: true,
+        title: {
+            display: true,
+            text: 'Datum',
+            color: '#555',
+            font: { size: 13, weight: '600' }
         },
+        ticks: {
+            color: '#666',
+            autoSkip: true,
+            maxTicksLimit: 8,
+            maxRotation: 45,   // ← rotace 45°
+            minRotation: 45
+        },
+        grid: {
+            color: 'rgba(0,0,0,0.05)'
+        }
+    },
+
+    y: {
+        beginAtZero: false,
+        title: {
+            display: true,
+            text: 'Cena (EUR)',
+            color: '#555',
+            font: { size: 13, weight: '600' }
+        },
+        ticks: {
+            color: '#666'
+        },
+        grid: {
+            color: 'rgba(0,0,0,0.05)'
+        }
+    }
+    },
 
         plugins: {
             legend: { display: false },
