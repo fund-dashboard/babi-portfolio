@@ -97,16 +97,16 @@ tr:nth-child(even) {
            <span class="value">9.0 ks</span></p>
 
         <p><span class="label">Cena VWCE:</span> 
-           <span class="value">143.28 EUR</span></p>
+           <span class="value">143.38 EUR</span></p>
 
         <p><span class="label">Hodnota portfolia:</span> 
-           <span class="value">1289.52 EUR</span>
-           (<span class="value">31168.60 Kč</span>)</p>
+           <span class="value">1290.42 EUR</span>
+           (<span class="value">31190.36 Kč</span>)</p>
 
         <p><span class="label">Kurz EUR/CZK:</span> 
            <span class="value">24.17</span></p>
 
-        <p class="small-info">Aktualizováno: 2025-11-20 09:38</p>
+        <p class="small-info">Aktualizováno: 2025-11-20 13:36</p>
     </div>
 
     <div class="card">
@@ -117,12 +117,12 @@ tr:nth-child(even) {
 
         <p><span class="label">Zhodnocení:</span> 
            <span class="value" style="color: #0a6;">
-               1.81 %
+               1.88 %
            </span></p>
 
         <p><span class="label">Celkem vyděláno:</span> 
            <span class="value" style="color: #0a6;">
-               22.92 EUR
+               23.82 EUR
            </span></p>
     </div>
 </div>
@@ -157,7 +157,7 @@ tr:nth-child(even) {
 <script>
 // ----- Data -----
 const labels = ["2025-11-14", "2025-11-17", "2025-11-18", "2025-11-19", "2025-11-20"];
-const data = [143.68, 143.02, 141.18, 141.38, 143.28];
+const data = [143.68, 143.02, 141.18, 141.38, 143.38];
 
 const tradeDates = ["2025-11-14", "2025-11-18"];
 const tradePrices = [141.8, 140.2];
@@ -207,10 +207,43 @@ new Chart(ctx, {
         responsive: true,
         maintainAspectRatio: false,
 
-        scales: {
-            x: { display: false },
-            y: { beginAtZero: false }
+    scales: {
+    x: {
+        display: true,
+        title: {
+            display: true,
+            text: 'Datum',
+            color: '#555',
+            font: { size: 13, weight: '600' }
         },
+        ticks: {
+            color: '#666',
+            autoSkip: true,
+            maxTicksLimit: 8,
+            maxRotation: 45,   // ← rotace 45°
+            minRotation: 45
+        },
+        grid: {
+            color: 'rgba(0,0,0,0.05)'
+        }
+    },
+
+    y: {
+        beginAtZero: false,
+        title: {
+            display: true,
+            text: 'Cena (EUR)',
+            color: '#555',
+            font: { size: 13, weight: '600' }
+        },
+        ticks: {
+            color: '#666'
+        },
+        grid: {
+            color: 'rgba(0,0,0,0.05)'
+        }
+    }
+    },
 
         plugins: {
             legend: { display: false },
